@@ -1,6 +1,7 @@
 import argparse
 import os
 
+from indexing import tokenize_file
 
 if __name__ == '__main__':
     # Command-line arguments parsing
@@ -10,7 +11,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Opening files and indexing them. WIP.
+    index = dict()
     for directory in args.dirs:
-        for path in os.listdir(directory):
-            with open(os.path.join(directory, path)) as indexed_file:
-                print indexed_file
+        for filename in os.listdir(directory):
+            index[filename] = set()
+            print "Indexing '{}'".format(filename)
+            file_path = os.path.join(directory, filename)
+            for token in tokenize_file(file_path, encoding='latin-1'):
+                index[filename].add(token)
