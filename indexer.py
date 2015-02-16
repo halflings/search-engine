@@ -1,5 +1,6 @@
 import argparse
 import os
+import pickle
 
 from index import TfidfIndex
 from tokenizing import tokenize_file
@@ -16,12 +17,16 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Index the given directories.')
     parser.add_argument('dirs', metavar='directory', type=str, nargs='+',
                        help='Directories that need to be indexed')
+    parser.add_argument('-index_path', type=str, default='cached_index.pickle',
+                       help='Path where the index will be saved.')
     args = parser.parse_args()
 
-    # Opening files and indexing them. WIP.
+    # Opening files and indexing them.
     index = TfidfIndex()
     for directory in args.dirs:
         index_dir(directory, index)
     print("Finished indexing!")
 
-    print index.search("zombie walk")
+    # Dumping the index to a file
+    with open(args.index_path, 'w') as index_file_output:
+        pickle.dump(index, index_file_output)
