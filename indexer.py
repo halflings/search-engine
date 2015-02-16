@@ -1,15 +1,15 @@
 import argparse
 import os
 
+from index import TfidfIndex
 from tokenizing import tokenize_file
 
 def index_dir(directory, index):
     for filename in os.listdir(directory):
-        index[filename] = set()
         print("Indexing '{}'".format(filename))
         file_path = os.path.join(directory, filename)
-        for i, token in enumerate(tokenize_file(file_path, encoding='latin-1')):
-            index[filename].add(token)
+        for pos, token in enumerate(tokenize_file(file_path, encoding='latin-1')):
+            index.insert(token, file_path, pos)
 
 if __name__ == '__main__':
     # Command-line arguments parsing
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Opening files and indexing them. WIP.
-    index = dict()
+    index = TfidfIndex()
     for directory in args.dirs:
         index_dir(directory, index)
     print("Finished indexing!")
