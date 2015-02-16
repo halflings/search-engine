@@ -1,13 +1,13 @@
 import argparse
 import os
-import pickle
+import cPickle as pickle
 
 from index import TfidfIndex
 from tokenizing import tokenize_file
 
 def index_dir(directory, index):
     for filename in os.listdir(directory):
-        print("Indexing '{}'".format(filename))
+        print(" . Indexing '{}'".format(filename))
         file_path = os.path.join(directory, filename)
         for pos, token in enumerate(tokenize_file(file_path, encoding='latin-1')):
             index.insert(token, file_path, pos)
@@ -24,8 +24,10 @@ if __name__ == '__main__':
     # Opening files and indexing them.
     index = TfidfIndex()
     for directory in args.dirs:
+        print "* Indexing directory '{}':".format(directory)
         index_dir(directory, index)
-    print("Finished indexing!")
+    print("")
+    print("Finished indexing, serializing index to '{}'...".format(args.index_path))
 
     # Dumping the index to a file
     with open(args.index_path, 'w') as index_file_output:
