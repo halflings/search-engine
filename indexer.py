@@ -23,3 +23,5 @@ if __name__ == '__main__':
     for directory in args.dirs:
         index_dir(directory, index)
     print("Finished indexing!")
+
+    print index.search("zombie walk")
