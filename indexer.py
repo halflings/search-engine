@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from indexing import tokenize_file
+from tokenizing import tokenize_file
 
 def index_dir(directory, index):
     for filename in os.listdir(directory):
